@@ -1,0 +1,23 @@
+{
+  "name": "ssapi",
+  "version": "1.0.0",
+  "description": "employee skills api",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GRamirez2/ssApi.git"
+  },
+  "keywords": [
+    "api",
+    "node"
+  ],
+  "author": "George Ramirez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GRamirez2/ssApi/issues"
+  },
+  "homepage": "https://github.com/GRamirez2/ssApi#readme"
+}

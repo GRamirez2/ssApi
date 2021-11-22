@@ -21,15 +21,36 @@ app.get('/', (req, res) => {
     res.send({message: 'hello, this is a test'})
 })
 
-app.post('/', (req, res) => {
+app.post("/ ", (req, res) => {
     console.log('body:', req)
     res.send({message: 'req received'})
 })
 
-//v1
-v1.get('/', (req, res)=>{
-    res.send({'message': '/api/v1'})
-})
+//v1 Router
+// v1.get('/', (req, res)=>{
+//     res.send({'message': '/api/v1'})
+// })
+// V1 using route - move this to separate dir
+
+v1.route('/employee')
+  .get((req, res) => {
+    res.send({'data': 'api/v1/ GET employee'})
+  })
+  .post((req, res) => {
+    res.send({'data': 'api/v1/ POST employee'})
+  })
+
+v1.route('/employee/:id')
+  .get((req, res) => {
+    console.log('req.params', req.params)
+    res.send({'data': 'api/v1/ GET employee with id ' + req.params.id})
+  })
+  .put((req, res) => {
+    res.send({'data': 'api/v1/ PUT employee with id ' + req.params.id})
+  })
+  .delete((req, res) => {
+    res.send({'data': 'api/v1/ DELETE employee with id ' + req.params.id})
+  })
 
 // Start app
 export const start = () => {

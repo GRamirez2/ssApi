@@ -1,13 +1,44 @@
-import express from 'express'
-import { json, urlencoded } from 'body-parser'
-import morgan from 'morgan'
-import cors from 'cors'
+import express from 'express';
+import { json, urlencoded } from 'body-parser';
+import morgan from 'morgan';
+import cors from 'cors';
+import 'dotenv/config';
+
+import { sequelize } from './utils/dbConnect';
+import { Employee } from  './models/employee';
+import { Skills } from  './models/skills';
+
 
 export const app = express()
 
 const v1 = express.Router()
 
 app.disable('x-powered-by')
+
+//hook into db
+(async () => {
+  Employee.hasMany(Skills);
+  await sequelize
+  .sync()
+  .then((result) => {
+    console.log('sync result:',result)
+  })
+  .catch((err) => {
+    console.err('err caught:', err);
+  })
+
+})();
+
+// Employee.hasMany(Skills);
+// sequelize
+//   .sync()
+//   .then((result) => {
+//     console.log('sync result:',result)
+//   })
+//   .catch((err) => {
+//     console.err(err);
+//   })
+
 
 app.use(cors())
 app.use(json())
@@ -18,12 +49,13 @@ app.use('/ssc/api/v1', v1)
 
 //root Router
 app.get('/', (req, res) => {
-    res.send({message: 'hello, this is a test'})
+    res.send({message: 'hello, this is a get test'})
 })
 
-app.post("/ ", (req, res) => {
-    console.log('body:', req)
-    res.send({message: 'req received'})
+app.post('/', (req, res) => {
+    console.log('req:', req.body)
+    // make sure the raw post body is json in postman, or just use insomnia
+    res.send({reqest: req.body})
 })
 
 //v1 Router
@@ -54,7 +86,7 @@ v1.route('/employee/:id')
 
 // Start app
 export const start = () => {
-  app.listen( 5000, () => {
-    console.log('Server is on 5000')
+  app.listen( 1972, () => {
+    console.log('Server is on 1972')
   })
 }

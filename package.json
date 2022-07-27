@@ -9,7 +9,13 @@
     "restart": "rimraf dist && npm run build && npm run start",
     "start": "node dist/index.js",
     "lint": "eslint ./src --ext .js",
-    "test": "test"
+    "test": "test",
+    "make-model": "npx sequelize-cli model:generate --name Name --attributes first_name:string,last_name:string",
+    "migrate-db": "npx sequelize-cli db:migrate",
+    "undo-dbMigration": "npx sequelize-cli db:migrate:undo:all",
+    "make-seed":"npx sequelize-cli seed:generate --name demo-user",
+    "seed-db": "npx sequelize-cli db:seed:all",
+    "undo-dbSeed": "npx sequelize-cli db:seed:undo:all"
   },
   "repository": {
     "type": "git",
@@ -35,7 +41,8 @@
     "eslint-plugin-prettier": "4.0.0",
     "nodemon": "^2.0.15",
     "prettier": "2.4.1",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "sequelize-cli": "^6.4.1"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

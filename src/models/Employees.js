@@ -2,8 +2,6 @@ import { DataTypes } from 'sequelize';
 const db = require('../utils/dbConnect');
 const Skills = require('./Skills');
 const Management = require('./Management');
-const skillsModel = require('../../models/skills');
-const ManagementModel = require('../../models/Management');
 
 const Employee = db.define('Employee', {
       manager_id:{
@@ -18,10 +16,20 @@ const Employee = db.define('Employee', {
       first_name: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'first name is required'
+          }
+        }
       },
       last_name: { 
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'last name is required'
+          }
+        }
       },
       active: {
         type: DataTypes.BOOLEAN
@@ -36,7 +44,13 @@ const Employee = db.define('Employee', {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        validate: {
+          notNull: {
+            msg: 'email is required'
+          }
+        },
+        unique: true,
+        
       },
       phone: {
         type: DataTypes.STRING,
@@ -53,8 +67,8 @@ const Employee = db.define('Employee', {
   tableName: 'Employee'
 });
 
-Employee.hasOne(Skills, {foreignKey: 'employee_id'});
+Employee.Skills = Employee.hasOne(Skills, {foreignKey: 'employee_id'});
 
-Employee.belongsTo(Management, {foreignKey: 'manager_id'});
+Employee.Management = Employee.belongsTo(Management, {foreignKey: 'manager_id'});
 
 module.exports = Employee;

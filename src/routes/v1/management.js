@@ -1,18 +1,21 @@
 import express from 'express';
-const management = express.Router()
+const management = express.Router();
+const { numberValidation } = require('../../controlers/helpers');
+const {findAll_manager_GET, createNew_manager_POST, findOne_manager_GET, update_manager_PUT, delete_manager_DELETE, findReports_manager_GET } = require('../../controlers/managementOperations');
 
-// These can out to a controler. 
-const management_GET =  function (req, res) {
-  res.send({'data': 'GET => api/v1/managment'})
-}
 
-const management_POST =  function (req, res) {
-  res.send({'data': 'POST => api/v1/management'})
-}
 
 management.route('/')
-.get(management_GET)
-.post(management_POST)
+.get(findAll_manager_GET)
+.post(createNew_manager_POST)
+
+management.route('/:id')
+.get(numberValidation, findOne_manager_GET)
+.put(numberValidation,update_manager_PUT)
+.delete(numberValidation,delete_manager_DELETE)
+
+management.route('/:id/reports')
+.get(numberValidation, findReports_manager_GET)
 
 module.exports = management;
 

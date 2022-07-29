@@ -14,6 +14,15 @@ module.exports = {
       },
       {
         id: 2,
+        first_name: 'david',
+        last_name: 'godwin',
+        seniority_level: 'managing consultant',
+        department: 'app dev',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        id: 3,
         first_name: 'george',
         last_name:'ramirez',
         seniority_level: 'senior consultant',

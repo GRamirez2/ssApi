@@ -1,6 +1,5 @@
 import { DataTypes } from 'sequelize';
 const db = require('../utils/dbConnect');
-const Employee = require('./Employees');
 
 
 const Management = db.define('Management', {

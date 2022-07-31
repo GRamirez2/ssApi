@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 const db = require('../utils/dbConnect');
 
+
 const Skills = db.define('Skills', {
     employee_id:{
         type: DataTypes.INTEGER,

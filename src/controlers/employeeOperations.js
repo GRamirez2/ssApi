@@ -3,7 +3,7 @@ const SkillsModel = require('../models/Skills');
 const ManagementModel = require('../models/Management');
 
 /**
- * route = '/'
+ * route = 'employee/'
  * */
 const findAll_employees_GET = function(req, res){
     EmployeeModal.findAll(
@@ -17,8 +17,7 @@ const findAll_employees_GET = function(req, res){
             res.send({data:listOfEmployees})
         } )
         .catch(err =>{
-            console.log(err)
-            res.send({error: `${err}`})
+            res.send({ERROR: `${err}`})
         })
 }
 
@@ -60,7 +59,7 @@ const createNew_employee_POST = function(req, res){
 }
 
 /**
- * route = '/:id'
+ * route = 'employee/:id'
  * */
 const findOne_employee_GET = function(req, res){
 

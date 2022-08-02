@@ -93,4 +93,59 @@ const findAll_desired_skill_GET = function(req, res){
         })
 }
 
-module.exports = {findAll_skill_GET, findOne_skill_GET, update_skill_PUT, findAll_primary_skill_GET, findAll_secondary_skill_GET, findAll_desired_skill_GET };
+/**
+ * route = 'skills/primary/employees/:skill'
+ * */
+const findAll_employees_primary_skill_GET = function(req, res){
+    EmployeeModal.findAll({
+        include: [{ 
+            model: SkillsModel,
+            where:{
+                primary_tech: req.params.skill.toLowerCase()
+            }
+        }]
+        }
+        )
+        .then(skill =>{
+            res.send({data:skill})
+        } )
+        .catch(err =>{
+            res.status(400).send({ERROR: `${err}`})
+        })
+}
+const findAll_employees_secondary_skill_GET = function(req, res){
+    EmployeeModal.findAll({
+        include: [{ 
+            model: SkillsModel,
+            where:{
+                secondary_tech: req.params.skill.toLowerCase()
+            }
+        }]
+        }
+        )
+        .then(skill =>{
+            res.send({data:skill})
+        } )
+        .catch(err =>{
+            res.status(400).send({ERROR: `${err}`})
+        })
+}
+const findAll_employees_desired_skill_GET = function(req, res){
+    EmployeeModal.findAll({
+        include: [{ 
+            model: SkillsModel,
+            where:{
+                desired_tech: req.params.skill.toLowerCase()
+            }
+        }]
+        }
+        )
+        .then(skill =>{
+            res.send({data:skill})
+        } )
+        .catch(err =>{
+            res.status(400).send({ERROR: `${err}`})
+        })
+}
+
+module.exports = {findAll_skill_GET, findOne_skill_GET, update_skill_PUT, findAll_primary_skill_GET, findAll_secondary_skill_GET, findAll_desired_skill_GET,findAll_employees_primary_skill_GET, findAll_employees_secondary_skill_GET, findAll_employees_desired_skill_GET };

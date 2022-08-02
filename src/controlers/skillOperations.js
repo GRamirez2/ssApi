@@ -20,7 +20,7 @@ const findAll_skill_GET = function(req, res){
 } 
 
 /**
- * route = 'Skills/:id'
+ * route = 'skills/employee/:id'
  * */
 const findOne_skill_GET = function(req, res){
     EmployeeModal.findOne({
@@ -57,6 +57,9 @@ const update_skill_PUT = function(req, res){
     })
 } 
 
+/**
+ * route = 'skills/primary
+ */
 const findAll_primary_skill_GET = function(req, res){
     SkillsModel.findAll()
         .then(skills =>{
@@ -69,6 +72,9 @@ const findAll_primary_skill_GET = function(req, res){
         })
 }
 
+/**
+ * route = 'skills/secondary
+ */
 const findAll_secondary_skill_GET = function(req, res){
     SkillsModel.findAll()
         .then(skills =>{
@@ -81,6 +87,9 @@ const findAll_secondary_skill_GET = function(req, res){
         })
 }
 
+/**
+ * route = 'skills/desired
+ */
 const findAll_desired_skill_GET = function(req, res){
     SkillsModel.findAll()
         .then(skills =>{
@@ -93,59 +102,29 @@ const findAll_desired_skill_GET = function(req, res){
         })
 }
 
-/**
- * route = 'skills/primary/employees/:skill'
- * */
-const findAll_employees_primary_skill_GET = function(req, res){
+/*
+* route = ''/employees/:level/:skill'
+* level options are: primary_tech, secondary_tech, desired_tech
+*/
+const findAll_employees_skill_level_GET = function(req, res){
+
+    let key = req.params.level.toLowerCase().trim().toString();
+    const skill_ = req.params.skill.toLowerCase().trim().toString();
+    let query = {};
+    query[key] = skill_
+
     EmployeeModal.findAll({
-        include: [{ 
-            model: SkillsModel,
-            where:{
-                primary_tech: req.params.skill.toLowerCase()
-            }
-        }]
-        }
-        )
-        .then(skill =>{
-            res.send({data:skill})
-        } )
-        .catch(err =>{
-            res.status(400).send({ERROR: `${err}`})
+            include: [{ 
+                model: SkillsModel,
+                where:query
+            }]
         })
-}
-const findAll_employees_secondary_skill_GET = function(req, res){
-    EmployeeModal.findAll({
-        include: [{ 
-            model: SkillsModel,
-            where:{
-                secondary_tech: req.params.skill.toLowerCase()
-            }
-        }]
-        }
-        )
         .then(skill =>{
             res.send({data:skill})
-        } )
-        .catch(err =>{
-            res.status(400).send({ERROR: `${err}`})
         })
-}
-const findAll_employees_desired_skill_GET = function(req, res){
-    EmployeeModal.findAll({
-        include: [{ 
-            model: SkillsModel,
-            where:{
-                desired_tech: req.params.skill.toLowerCase()
-            }
-        }]
-        }
-        )
-        .then(skill =>{
-            res.send({data:skill})
-        } )
         .catch(err =>{
             res.status(400).send({ERROR: `${err}`})
         })
 }
 
-module.exports = {findAll_skill_GET, findOne_skill_GET, update_skill_PUT, findAll_primary_skill_GET, findAll_secondary_skill_GET, findAll_desired_skill_GET,findAll_employees_primary_skill_GET, findAll_employees_secondary_skill_GET, findAll_employees_desired_skill_GET };
+module.exports = {findAll_skill_GET, findOne_skill_GET, update_skill_PUT, findAll_primary_skill_GET, findAll_secondary_skill_GET, findAll_desired_skill_GET,findAll_employees_skill_level_GET};

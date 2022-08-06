@@ -2,6 +2,7 @@ import { DataTypes } from 'sequelize';
 const db = require('../utils/dbConnect');
 const Skills = require('./Skills');
 const Management = require('./Management');
+const Engagement = require('./Engagement');
 
 const Employee = db.define('Employee', {
       manager_id:{
@@ -10,6 +11,15 @@ const Employee = db.define('Employee', {
         field: 'manager_id',
         references: {
           model: 'Management',
+          key: 'id'
+        }
+      },
+      engagement_id:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'engagement_id',
+        references: {
+          model: 'Engagement',
           key: 'id'
         }
       },
@@ -62,7 +72,16 @@ const Employee = db.define('Employee', {
       },
       github: {
         type: DataTypes.STRING
-      }
+      },
+      start_date: {
+        type: DataTypes.DATE
+      },
+      extended: {
+        type: DataTypes.BOOLEAN
+      },
+      extended_start_date: {
+        type: DataTypes.DATE
+      },
 }, {
   tableName: 'Employee'
 });
@@ -70,5 +89,7 @@ const Employee = db.define('Employee', {
 Employee.Skills = Employee.hasOne(Skills, {foreignKey: 'employee_id'});
 
 Employee.Management = Employee.belongsTo(Management, {foreignKey: 'manager_id'});
+
+Employee.Engagement = Employee.belongsTo(Engagement, {foreignKey: 'engagement_id'});
 
 module.exports = Employee;

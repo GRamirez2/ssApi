@@ -10,7 +10,7 @@
     "start": "node dist/index.js",
     "lint": "eslint ./src --ext .js",
     "test": "test",
-    "make-model": "npx sequelize-cli model:generate --name Name --attributes first_name:string,last_name:string",
+    "make-modelAndMigration": "npx sequelize-cli model:generate --name Name --attributes first_name:string,last_name:string",
     "migrate-db": "npx sequelize-cli db:migrate",
     "undo-dbMigration": "npx sequelize-cli db:migrate:undo:all",
     "make-seed":"npx sequelize-cli seed:generate --name demo-user",

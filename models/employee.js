@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Employee.init({
     manager_id: DataTypes.INTEGER,
+    engagement_id: DataTypes.INTEGER,
     first_name: DataTypes.STRING,
     last_name: DataTypes.STRING,
     active: DataTypes.BOOLEAN,
@@ -23,7 +24,10 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     phone: DataTypes.STRING,
     linkedIn: DataTypes.STRING,
-    github: DataTypes.STRING
+    github: DataTypes.STRING,
+    start_date: DataTypes.DATE,
+    extended: DataTypes.BOOLEAN,
+    extended_start_date: DataTypes.DATE,
   }, {
     sequelize,
     modelName: 'Employee',

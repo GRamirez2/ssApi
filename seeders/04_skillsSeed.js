@@ -30,6 +30,15 @@ module.exports = {
       desired_tech: 'aws',
       createdAt: new Date(),
       updatedAt: new Date()
+    },
+    {
+      id: 4,
+      employee_id: 4,
+      primary_tech: 'react',
+      secondary_tech: 'java',
+      desired_tech: 'aws',
+      createdAt: new Date(),
+      updatedAt: new Date()
   }
   ], {});
     

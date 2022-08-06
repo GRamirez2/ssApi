@@ -16,6 +16,14 @@ module.exports = {
           key: 'id'
         }
       },
+      engagement_id:{
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Engagement',
+          key: 'id'
+        }
+      },
       first_name: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -48,6 +56,15 @@ module.exports = {
       },
       github: {
         type: Sequelize.STRING
+      },
+      start_date: {
+        type: Sequelize.DATE
+      },
+      extended: {
+        type: Sequelize.BOOLEAN
+      },
+      extended_start_date: {
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,

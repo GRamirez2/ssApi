@@ -1,6 +1,7 @@
 const EmployeeModal = require('../models/Employees');
 const SkillsModel = require('../models/Skills');
 const ManagementModel = require('../models/Management');
+const EngagementModel = require('../models/Engagement');
 
 /**
  * route = 'employee/'
@@ -9,12 +10,16 @@ const findAll_employees_GET = function(req, res){
     EmployeeModal.findAll(
         { include:[
             {model:SkillsModel},
-            {model:ManagementModel}
+            {model:ManagementModel},
+            {model:EngagementModel}
             ]
         }
         )
         .then(listOfEmployees =>{
-            res.send({data:listOfEmployees})
+            res.send({
+                length: listOfEmployees.length,
+                data:listOfEmployees
+            })
         } )
         .catch(err =>{
             res.send({ERROR: `${err}`})
@@ -25,31 +30,34 @@ const createNew_employee_POST = function(req, res){
    // validate that all fields are passed in or return error
     const newEmployee = {
         manager_id: req.body.manager_id,
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        active: req.body. active,
-        status: req.body.status,
+        engagement_id: req.body.engagement_id,
+        first_name: req.body.first_name.trim().toString(),
+        last_name: req.body.last_name.trim().toString(),
+        active: req.body.active,
+        status: req.body.status.trim().toString(),
         appAdmin: req.body.appAdmin,
-        email: req.body.email,
-        phone: req.body.phone,
-        linkedIn: req.body.linkedIn,
-        github: req.body.github
+        email: req.body.email.trim().toString(),
+        phone: req.body.phone.trim().toString(),
+        linkedIn: req.body.linkedIn.trim().toString(),
+        github: req.body.github.trim().toString(),
+        start_date: req.body.start_date ? new Date(req.body.start_date): null,
+        extended: req.body.extended,
+        extended_start_date: req.body.extended_start_date ? new Date(req.body.extended_start_date): null
     };
-
     EmployeeModal.create(newEmployee)
     .then(
         e => {
             SkillsModel.create({
                 employee_id: e.dataValues.id,
-                primary_tech: req.body.primary_tech,
-                secondary_tech: req.body.secondary_tech,
-                desired_tech: req.body.desired_tech
+                primary_tech: req.body.primary_tech.trim().toString(),
+                secondary_tech: req.body.secondary_tech.trim().toString(),
+                desired_tech: req.body.desired_tech.trim().toString()
             })
             .then(
                 employee => {res.send({'data': {...e.dataValues, Skill: employee.dataValues}})}
             )
             .catch(err => {
-                res.status(400).send({'ERROR': `Error in inserting new record to Skills Table. ${err}`})
+                res.status(400).send({'ERROR': `Error in inserting new record to Skills Table. ${err}`, data: e})
             })
         }
     )

@@ -94,15 +94,18 @@ const update_employee_PUT = function(req, res){
     EmployeeModal.update(
         {
             manager_id: req.body.manager_id,
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
+            first_name: req.body.first_name.trim().toString(),
+            last_name: req.body.last_name.trim().toString(),
             active: req.body.active,
-            status: req.body.status,
+            status: req.body.status.trim().toString(),
             appAdmin: req.body.appAdmin,
-            email: req.body.email,
-            phone: req.body.phone,
-            linkedIn: req.body.linkedIn,
-            github: req.body.github,
+            email: req.body.email.trim().toString(),
+            phone: req.body.phone.trim().toString(),
+            linkedIn: req.body.linkedIn.trim().toString(),
+            github: req.body.github.trim().toString(),
+            ...(req.body.start_date && {start_date: new Date(req.body.start_date)}),
+            extended: req.body.extended,
+           ...( req.body.extended && {extended_start_date: new Date(req.body.extended_start_date)})
         },
         {returning: true, where: {id: req.params.id} }
       )

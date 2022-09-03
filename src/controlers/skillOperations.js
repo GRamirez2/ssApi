@@ -103,7 +103,7 @@ const findAll_desired_skill_GET = function(req, res){
 }
 
 /*
-* route = ''/employees/:level/:skill'
+* route = '/employees/:level/:skill'
 * level options are: primary_tech, secondary_tech, desired_tech
 */
 const findAll_employees_skill_level_GET = function(req, res){

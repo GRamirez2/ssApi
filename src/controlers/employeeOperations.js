@@ -70,14 +70,14 @@ const createNew_employee_POST = function(req, res){
  * route = 'employee/:id'
  * */
 const findOne_employee_GET = function(req, res){
-
     EmployeeModal.findOne({
         where:{
             id: req.params.id
             },
         include:[
             {model:SkillsModel},
-            {model:ManagementModel}
+            {model:ManagementModel},
+            {model:EngagementModel}
             ]
         }
         )
@@ -94,15 +94,16 @@ const update_employee_PUT = function(req, res){
     EmployeeModal.update(
         {
             manager_id: req.body.manager_id,
-            first_name: req.body.first_name.trim().toString(),
-            last_name: req.body.last_name.trim().toString(),
+            engagement_id: req.body.engagement_id,
+            first_name: req.body.first_name?.trim(),
+            last_name: req.body.last_name?.trim(),
             active: req.body.active,
-            status: req.body.status.trim().toString(),
+            status: req.body.status?.trim(),
             appAdmin: req.body.appAdmin,
-            email: req.body.email.trim().toString(),
-            phone: req.body.phone.trim().toString(),
-            linkedIn: req.body.linkedIn.trim().toString(),
-            github: req.body.github.trim().toString(),
+            email: req.body.email?.trim(),
+            phone: req.body.phone?.trim(),
+            linkedIn: req.body.linkedIn?.trim(),
+            github: req.body.github?.trim(),
             ...(req.body.start_date && {start_date: new Date(req.body.start_date)}),
             extended: req.body.extended,
            ...( req.body.extended && {extended_start_date: new Date(req.body.extended_start_date)})

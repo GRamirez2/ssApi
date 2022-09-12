@@ -12,6 +12,14 @@ const Employee = db.define('Employee', {
         references: {
           model: 'Management',
           key: 'id'
+        },
+        validate: {
+          isNumeric: {
+            msg: 'Manager Id is required and must be a whole number'
+          },
+          notNull: {
+            msg: 'Manager Id can not be null'
+          }
         }
       },
       engagement_id:{
@@ -21,6 +29,14 @@ const Employee = db.define('Employee', {
         references: {
           model: 'Engagement',
           key: 'id'
+        },
+        validate: {
+          isNumeric: {
+            msg: 'Engagement Id is required and must be a whole number'
+          },
+          notNull: {
+            msg: 'Engagement Id can not be null'
+          }
         }
       },
       first_name: {
@@ -28,7 +44,10 @@ const Employee = db.define('Employee', {
         allowNull: false,
         validate: {
           notNull: {
-            msg: 'first name is required'
+            msg: 'First name is required'
+          },
+          notEmpty: {
+            msg: 'First name is required'
           }
         }
       },
@@ -37,15 +56,28 @@ const Employee = db.define('Employee', {
         allowNull: false,
         validate: {
           notNull: {
-            msg: 'last name is required'
+            msg: 'Last name is required'
+          },
+          notEmpty: {
+            msg: 'Last name is required'
           }
         }
       },
       active: {
-        type: DataTypes.BOOLEAN
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
       },
       status: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Status is required'
+          },
+          notEmpty: {
+            msg: 'Status is required'
+          }
+        }
       },
       appAdmin: {
         type: DataTypes.BOOLEAN,
@@ -54,12 +86,13 @@ const Employee = db.define('Employee', {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
         validate: {
-          notNull: {
-            msg: 'email is required'
+          isEmail: {
+            msg: 'Email is required and must follow a standard email format'
           }
         },
-        unique: true,
+        
         
       },
       phone: {
@@ -68,19 +101,42 @@ const Employee = db.define('Employee', {
       },
       linkedIn: {
         type: DataTypes.STRING,
-        unique: true
+        unique: true,
+        validate: {
+          isUrl: {
+            msg: 'LinkedIn must be a url'
+          }
+        }
       },
       github: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        unique: true,
+        validate: {
+          isUrl: {
+            msg: 'Github must be a url'
+          }
+        }
       },
       start_date: {
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
+        allowNull: false,
+        validate: {
+          isDate: {
+            msg: 'Start Date must be a date'
+          }
+        }
       },
       extended: {
-        type: DataTypes.BOOLEAN
+        type: DataTypes.BOOLEAN,
+        default: false
       },
       extended_start_date: {
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
+        validate: {
+          isDate: {
+            msg: 'Extended Start Date must be a date'
+          }
+        }
       },
 }, {
   tableName: 'Employee'

@@ -3,6 +3,7 @@ const SkillsModel = require('../models/Skills');
 const ManagementModel = require('../models/Management');
 const EngagementModel = require('../models/Engagement');
 
+
 /**
  * route = 'employee/'
  * */
@@ -27,19 +28,19 @@ const findAll_employees_GET = function(req, res){
 }
 
 const createNew_employee_POST = function(req, res){
-   // validate that all fields are passed in or return error
+    // validation in model
     const newEmployee = {
         manager_id: req.body.manager_id,
         engagement_id: req.body.engagement_id,
-        first_name: req.body.first_name.trim().toString(),
-        last_name: req.body.last_name.trim().toString(),
+        first_name: req.body.first_name ? req.body.first_name.toString().toLowerCase().trim() : '',
+        last_name: req.body.last_name ? req.body.last_name.toString().toLowerCase().trim() : '',
         active: req.body.active,
-        status: req.body.status.trim().toString(),
+        status: req.body.status ? req.body.status.toString().toLowerCase().trim() : '',
         appAdmin: req.body.appAdmin,
-        email: req.body.email.trim().toString(),
-        phone: req.body.phone.trim().toString(),
-        linkedIn: req.body.linkedIn.trim().toString(),
-        github: req.body.github.trim().toString(),
+        email: req.body.email ? req.body.email.toString().toLowerCase().trim(): '',
+        phone: req.body.phone ? req.body.phone.toString().toLowerCase().trim() : '',
+        linkedIn: req.body.linkedIn ? req.body.linkedIn.toString().toLowerCase().trim() : '',
+        github: req.body.github ? req.body.github.toString().toLowerCase().trim() : '',
         start_date: req.body.start_date ? new Date(req.body.start_date): null,
         extended: req.body.extended,
         extended_start_date: req.body.extended_start_date ? new Date(req.body.extended_start_date): null
@@ -49,20 +50,20 @@ const createNew_employee_POST = function(req, res){
         e => {
             SkillsModel.create({
                 employee_id: e.dataValues.id,
-                primary_tech: req.body.primary_tech.trim().toString(),
-                secondary_tech: req.body.secondary_tech.trim().toString(),
-                desired_tech: req.body.desired_tech.trim().toString()
+                primary_tech: req.body.primary_tech ? req.body.primary_tech.toString().toLowerCase().trim() : '',
+                secondary_tech: req.body.secondary_tech ? req.body.secondary_tech.toString().toLowerCase().trim() : '',
+                desired_tech: req.body.desired_tech ? req.body.desired_tech.toString().toLowerCase().trim() : ''
             })
             .then(
                 employee => {res.send({'data': {...e.dataValues, Skill: employee.dataValues}})}
             )
             .catch(err => {
-                res.status(400).send({'ERROR': `Error in inserting new record to Skills Table. ${err}`, data: e})
+                res.status(400).send({'ERROR': err, 'Location': `Error inserting new record to Skills Table.`})
             })
         }
     )
     .catch(err => {
-        res.status(400).send({'ERROR': `Error in inserting new record to Employees Table. ${err}`})
+        res.status(400).send({'ERROR': err, 'Location': `Error inserting new record to Employees Table.`})
     })
 }
 
@@ -90,23 +91,23 @@ const findOne_employee_GET = function(req, res){
 }
 
 const update_employee_PUT = function(req, res){
-// need to add validation, maybe use the Joi library?
+// Validation in model, maybe use the Joi library?
     EmployeeModal.update(
         {
             manager_id: req.body.manager_id,
             engagement_id: req.body.engagement_id,
-            first_name: req.body.first_name?.trim(),
-            last_name: req.body.last_name?.trim(),
+            first_name: req.body.first_name?.toString().toLowerCase().trim(),
+            last_name: req.body.last_name?.toString().toLowerCase().trim(),
             active: req.body.active,
-            status: req.body.status?.trim(),
+            status: req.body.status?.toString().toLowerCase().trim(),
             appAdmin: req.body.appAdmin,
-            email: req.body.email?.trim(),
-            phone: req.body.phone?.trim(),
-            linkedIn: req.body.linkedIn?.trim(),
-            github: req.body.github?.trim(),
+            email: req.body.email?.toString().toLowerCase().trim(),
+            phone: req.body.phone?.toString().toLowerCase().trim(),
+            linkedIn: req.body.linkedIn?.toString().toLowerCase().trim(),
+            github: req.body.github?.toString().toLowerCase().trim(),
             ...(req.body.start_date && {start_date: new Date(req.body.start_date)}),
             extended: req.body.extended,
-           ...( req.body.extended && {extended_start_date: new Date(req.body.extended_start_date)})
+           ...( req.body.extended_start_date && {extended_start_date: new Date(req.body.extended_start_date)})
         },
         {returning: true, where: {id: req.params.id} }
       )
@@ -114,7 +115,7 @@ const update_employee_PUT = function(req, res){
         res.json(updatedEmployee)
       })
       .catch(err =>{
-        res.status(400).send({ERROR: `${err}`})
+        res.status(400).send({ERROR: err, 'Location': `Error updating record to Employees Table.`})
     })
 }
 
@@ -133,10 +134,10 @@ const delete_employee_DELETE = function(req, res){
             })
         })
         .then( () => {
-            res.send({msg: `Employee ${req.params.id} has been deleted`})
+            res.send({msg: `Employee ID ${req.params.id} - has been deleted`})
         } )
         .catch(err =>{
-            res.status(400).send({ERROR: `There was an problem deleting this id. ${err}`})
+            res.status(400).send({ERROR: err, 'Location': `There was a problem deleting Employee ID:  ${req.params.id}`})
         })
 }
 

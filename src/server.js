@@ -4,12 +4,32 @@ import morgan from 'morgan';
 import cors from 'cors';
 import 'dotenv/config';
 
-
-// Database // why doens't from work for this? 
-const db =  require('./utils/dbConnect')
-const v1 = require('./routes/v1/routes')
+import { db } from './utils/dbConnect';
+import { v1 } from './routes/v1/routes'
 
 export const app = express()
+
+const swaggerJSDoc = require ('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const options = {
+  definition:{
+    openapi: '3.0.0',
+    info: {
+      title: 'API Skills & Engagements for SingleStone Consulting',
+      version: '1.0.0'
+    },
+    servers: [
+      {
+          url: 'http://localhost:1972/'
+      }
+    ]
+  },
+  apis: ['./routes/v1/employee.js', './routes/v1/engagement.js', './routes/v1/management.js', './routes/v1/skills.js']
+}
+
+const swaggerSpec = swaggerJSDoc(options);
+app.use('/ssc/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 
 app.disable('x-powered-by')
 

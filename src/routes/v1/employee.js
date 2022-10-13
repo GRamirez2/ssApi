@@ -37,7 +37,7 @@ import { numberValidation } from '../../controlers/helpers';
  *                      type: string
  *                  extended:
  *                      type: boolean
- *                  extended_start_date:
+ *                  extended_start_date?:
  *                      type: string
  *                  createdAt:
  *                      type: string

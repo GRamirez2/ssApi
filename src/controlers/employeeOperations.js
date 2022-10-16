@@ -7,7 +7,7 @@ const EngagementModel = require('../models/Engagement');
 /**
  * route = 'employee/'
  * */
-const findAll_employees_GET = function(req, res){
+export const findAll_employees_GET = function(req, res){
     EmployeeModal.findAll(
         { include:[
             {model:SkillsModel},
@@ -23,11 +23,11 @@ const findAll_employees_GET = function(req, res){
             })
         } )
         .catch(err =>{
-            res.send({ERROR: `${err}`})
+            res.status(400).send({ERROR: err, msg: 'Problem fetching employee list'})
         })
 }
 
-const createNew_employee_POST = function(req, res){
+export const createNew_employee_POST = function(req, res){
     // validation in model
     const newEmployee = {
         manager_id: req.body.manager_id,
@@ -70,7 +70,7 @@ const createNew_employee_POST = function(req, res){
 /**
  * route = 'employee/:id'
  * */
-const findOne_employee_GET = function(req, res){
+export const findOne_employee_GET = function(req, res){
     EmployeeModal.findOne({
         where:{
             id: req.params.id
@@ -86,11 +86,11 @@ const findOne_employee_GET = function(req, res){
             res.send({data:employee})
         } )
         .catch(err =>{
-            res.send({ERROR: `${err}`})
+            res.status(400).send({ERROR: err,  'msg': `There was a problem finding Employee ID ${req.params.id}`})
         })
 }
 
-const update_employee_PUT = function(req, res){
+export const update_employee_PUT = function(req, res){
 // Validation in model, maybe use the Joi library?
     EmployeeModal.update(
         {
@@ -119,7 +119,7 @@ const update_employee_PUT = function(req, res){
     })
 }
 
-const delete_employee_DELETE = function(req, res){
+export const delete_employee_DELETE = function(req, res){
     SkillsModel.destroy({
         where:{
             employee_id: req.params.id
@@ -137,8 +137,6 @@ const delete_employee_DELETE = function(req, res){
             res.send({msg: `Employee ID ${req.params.id} - has been deleted`})
         } )
         .catch(err =>{
-            res.status(400).send({ERROR: err, 'Location': `There was a problem deleting Employee ID:  ${req.params.id}`})
+            res.status(400).send({ERROR: err, 'msg': `There was a problem deleting Employee ID:  ${req.params.id}`})
         })
 }
-
-module.exports = {findAll_employees_GET, createNew_employee_POST, findOne_employee_GET, update_employee_PUT, delete_employee_DELETE };

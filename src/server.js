@@ -19,7 +19,7 @@ const options = {
     info: {
       title: 'SingleStone Consulting: Employee Information + Management/Team + Skills + Engagements',
       version: '1.0.0',
-      description: 'REST API for employees, their managers and teams, skills and engagements.'
+      description: 'REST API for employees, their managers, teams, skills and engagements. \n\n API created and maintained by gramirez@singlestoneconsulting.com \n\n DOB: Oct 2022'
     },
     openapi: '3.0.0',
     servers: [
@@ -28,7 +28,7 @@ const options = {
       }
     ]
   },
-  apis: ['./src/server.js', './src/routes/v1/employee.js', '.src/routes/v1/engagement.js', '.src/routes/v1/management.js', '.src/routes/v1/skills.js']
+  apis: ['./src/routes/v1/*']
 }
 
 const swaggerSpec = swaggerJSDoc(options);
@@ -50,26 +50,6 @@ app.use(morgan('dev'))
 
 
 app.use('/ssc/api/v1', v1)
-
-// TODO delete this
-/**
- * @openapi
- * /:
- *  get:
- *    description: this is just the same test
- *    responses:
- *      200:
- *        description: hello this is a get test at the root, no /ssc/api/v1 needed
- */
-app.get('/', (req, res) => {
-    res.send({message: 'hello, this is a get test at the root, no /ssc/api/v1 needed'})
-})
-// TODO delete this
-app.post('/', (req, res) => {
-    console.log('req:', req.body)
-    // make sure the raw post body is json in postman, or just use insomnia
-    res.send({data: req.body})
-})
 
 // PORT
 const PORT = process.env.PORT || 1972;

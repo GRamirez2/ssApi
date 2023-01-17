@@ -24,7 +24,8 @@ const options = {
     openapi: '3.0.0',
     servers: [
       {
-          url: 'http://localhost:1972/ssc/api/v1/'
+          // url: 'http://localhost:1972/ssc/api/v1/'
+          url: 'https://georgeramirez.me/ssc/api/v1/'
       }
     ]
   },
@@ -48,7 +49,10 @@ app.use(json())
 app.use(urlencoded({ extended: true }))
 app.use(morgan('dev'))
 
-
+//root Router
+app.get('/', (req, res) => {
+  res.send({message: 'hello, this is a get test at the root, no /ssc/api/v1 needed'})
+})
 app.use('/ssc/api/v1', v1)
 
 // PORT
@@ -56,5 +60,5 @@ const PORT = process.env.PORT || 1972;
 
 // Start app
 export const start = () => {
-  app.listen( PORT, console.log('Server is on 1972'))
+  app.listen( PORT, console.log(`Server is on ${PORT}`))
 }

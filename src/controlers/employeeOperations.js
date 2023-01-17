@@ -43,16 +43,16 @@ export const createNew_employee_POST = function(req, res){
         github: req.body.github ? req.body.github.toString().toLowerCase().trim() : '',
         start_date: req.body.start_date ? new Date(req.body.start_date): null,
         extended: req.body.extended,
-        extended_start_date: req.body.extended_start_date ? new Date(req.body.extended_start_date): null
+        extended_start_date: req.body.extended_start_date ? new Date(req.body.extended_start_date): null,
     };
     EmployeeModal.create(newEmployee)
     .then(
         e => {
             SkillsModel.create({
                 employee_id: e.dataValues.id,
-                primary_tech: req.body.primary_tech ? req.body.primary_tech.toString().toLowerCase().trim() : '',
-                secondary_tech: req.body.secondary_tech ? req.body.secondary_tech.toString().toLowerCase().trim() : '',
-                desired_tech: req.body.desired_tech ? req.body.desired_tech.toString().toLowerCase().trim() : ''
+                primary_tech: req.body.primary_tech ? req.body.primary_tech.toString().toLowerCase().trim() : null,
+                secondary_tech: req.body.secondary_tech ? req.body.secondary_tech.toString().toLowerCase().trim() : null,
+                desired_tech: req.body.desired_tech ? req.body.desired_tech.toString().toLowerCase().trim() : null
             })
             .then(
                 employee => {res.send({'data': {...e.dataValues, Skill: employee.dataValues}})}
@@ -92,31 +92,49 @@ export const findOne_employee_GET = function(req, res){
 
 export const update_employee_PUT = function(req, res){
 // Validation in model, maybe use the Joi library?
-    EmployeeModal.update(
-        {
-            manager_id: req.body.manager_id,
-            engagement_id: req.body.engagement_id,
-            first_name: req.body.first_name?.toString().toLowerCase().trim(),
-            last_name: req.body.last_name?.toString().toLowerCase().trim(),
-            active: req.body.active,
-            status: req.body.status?.toString().toLowerCase().trim(),
-            appAdmin: req.body.appAdmin,
-            email: req.body.email?.toString().toLowerCase().trim(),
-            phone: req.body.phone?.toString().toLowerCase().trim(),
-            linkedIn: req.body.linkedIn?.toString().toLowerCase().trim(),
-            github: req.body.github?.toString().toLowerCase().trim(),
-            ...(req.body.start_date && {start_date: new Date(req.body.start_date)}),
-            extended: req.body.extended,
-           ...( req.body.extended_start_date && {extended_start_date: new Date(req.body.extended_start_date)})
-        },
-        {returning: true, where: {id: req.params.id} }
-      )
-      .then(function([ rowsUpdate, [updatedEmployee] ]){
-        res.json(updatedEmployee)
-      })
-      .catch(err =>{
-        res.status(400).send({ERROR: err, 'Location': `Error updating record to Employees Table.`})
-    })
+    EmployeeModal.findOne({
+        where:{
+            id: req.params.id
+            },
+        }
+        )
+        .then(employee =>{
+            if (employee){
+            // write the update to the employee table
+            EmployeeModal.update(
+                {
+                    manager_id: req.body.manager_id,
+                    engagement_id: req.body.engagement_id,
+                    first_name: req.body.first_name?.toString().toLowerCase().trim(),
+                    last_name: req.body.last_name?.toString().toLowerCase().trim(),
+                    active: req.body.active,
+                    status: req.body.status?.toString().toLowerCase().trim(),
+                    appAdmin: req.body.appAdmin,
+                    email: req.body.email?.toString().toLowerCase().trim(),
+                    phone: req.body.phone?.toString().toLowerCase().trim(),
+                    linkedIn: req.body.linkedIn?.toString().toLowerCase().trim(),
+                    github: req.body.github?.toString().toLowerCase().trim(),
+                    ...(req.body.start_date && {start_date: new Date(req.body.start_date)}),
+                    extended: req.body.extended,
+                   ...( req.body.extended_start_date && {extended_start_date: new Date(req.body.extended_start_date)})
+                },
+                {returning: true, where: {id: req.params.id} }
+              )
+              .then(function([ rowsUpdate, [updatedEmployee] ]){
+                res.json(updatedEmployee)
+              })
+              .catch(err =>{
+                res.status(400).send({ERROR: err, 'Location': `Error updating record to Employees Table.`})
+              })
+            } else {
+                res.status(400).send({ERROR: 'Did not find this employee id',  'msg': `Can not delete Employee ID ${req.params.id} if it doens't exist`})
+                
+            }
+
+        } )
+        .catch(err =>{
+            res.status(400).send({ERROR: err,  'msg': `There was a problem finding Employee ID ${req.params.id}`})
+        })
 }
 
 export const delete_employee_DELETE = function(req, res){
@@ -126,17 +144,24 @@ export const delete_employee_DELETE = function(req, res){
             }
         }
         )
-        .then( () => {
-            EmployeeModal.destroy({
-                where:{
-                    id: req.params.id
-                }
-            })
+        .then( employee => {
+            if (employee){
+                EmployeeModal.destroy({
+                    where:{
+                        id: req.params.id
+                    }
+                })
+                .then( () => {
+                    res.send({msg: `Employee ID ${req.params.id} - has been deleted`})
+                } )
+                .catch(err =>{
+                    res.status(400).send({ERROR: err, 'msg': `There was a problem deleting Employee ID:  ${req.params.id}`})
+                })
+            } else {
+                res.status(400).send({ERROR: 'Did not find this employee id',  'msg': `Can not delete Employee ID ${req.params.id} if it doens't exist`}) 
+            }
+
         })
-        .then( () => {
-            res.send({msg: `Employee ID ${req.params.id} - has been deleted`})
-        } )
-        .catch(err =>{
-            res.status(400).send({ERROR: err, 'msg': `There was a problem deleting Employee ID:  ${req.params.id}`})
-        })
+
 }
+

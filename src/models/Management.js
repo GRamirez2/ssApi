@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-const db = require('../utils/dbConnect');
+import { db } from '../utils/dbConnect'
 
 
 const Management = db.define('Management', {

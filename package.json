@@ -1,7 +1,7 @@
 {
-  "name": "single-stone-skills-api",
+  "name": "single-stone-engagement-api",
   "version": "1.0.0",
-  "description": "employee skills api",
+  "description": "employee engagement api",
   "main": "index.js",
   "scripts": {
     "build": "babel src --out-dir dist",
@@ -13,7 +13,7 @@
     "make-modelAndMigration": "npx sequelize-cli model:generate --name Name --attributes first_name:string,last_name:string",
     "migrate-db": "npx sequelize-cli db:migrate",
     "undo-dbMigration": "npx sequelize-cli db:migrate:undo:all",
-    "make-seed":"npx sequelize-cli seed:generate --name demo-user",
+    "make-seed": "npx sequelize-cli seed:generate --name demo-user",
     "seed-db": "npx sequelize-cli db:seed:all",
     "undo-dbSeed": "npx sequelize-cli db:seed:undo:all"
   },
@@ -52,6 +52,8 @@
     "morgan": "^1.10.0",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.16.2"
+    "sequelize": "^6.16.2",
+    "swagger-jsdoc": "^6.2.5",
+    "swagger-ui-express": "^4.5.0"
   }
 }

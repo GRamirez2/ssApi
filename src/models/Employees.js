@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-const db = require('../utils/dbConnect');
+import { db } from '../utils/dbConnect'
 const Skills = require('./Skills');
 const Management = require('./Management');
 const Engagement = require('./Engagement');

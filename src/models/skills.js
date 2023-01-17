@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-const db = require('../utils/dbConnect');
+import { db } from '../utils/dbConnect'
 
 
 const Skills = db.define('Skills', {
@@ -13,7 +13,13 @@ const Skills = db.define('Skills', {
         }
       },
       primary_tech: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Must define an employee\'s primary tech'
+          }
+        }
       },
       secondary_tech: {
         type: DataTypes.STRING

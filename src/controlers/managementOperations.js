@@ -5,7 +5,7 @@ const SkillsModel = require('../models/Skills');
 /**
  * route = 'management/'
  * */
-const findAll_manager_GET = function(req, res){
+export const findAll_manager_GET = function(req, res){
     ManagementModel.findAll()
         .then(listOfEmployees =>{
             res.send({data:listOfEmployees})
@@ -17,7 +17,7 @@ const findAll_manager_GET = function(req, res){
 
 } 
 
-const createNew_manager_POST = function(req, res){
+export const createNew_manager_POST = function(req, res){
    // validate that all fields are passed in or return error
    const newManager = {
         first_name: req.body.first_name,
@@ -41,7 +41,7 @@ const createNew_manager_POST = function(req, res){
 /**
  * route = 'management/:id'
  * */
-const findOne_manager_GET = function(req, res){
+export const findOne_manager_GET = function(req, res){
     ManagementModel.findOne({
         where:{
             id: req.params.id
@@ -56,7 +56,7 @@ const findOne_manager_GET = function(req, res){
         })
 } 
 
-const update_manager_PUT = function(req, res){
+export const update_manager_PUT = function(req, res){
     // need to add validation, maybe use the Joi library?
     ManagementModel.update(
         {
@@ -75,7 +75,7 @@ const update_manager_PUT = function(req, res){
     })
 } 
 
-const findReports_manager_GET = function(req, res){
+export const findReports_manager_GET = function(req, res){
     EmployeeModal.findAll({
         where:{
             manager_id: req.params.id
@@ -93,7 +93,7 @@ const findReports_manager_GET = function(req, res){
         })
 }
 
-const delete_manager_DELETE  = function(req, res){
+export const delete_manager_DELETE  = function(req, res){
     ManagementModel.destroy({
         where:{
             id: req.params.id
@@ -107,5 +107,3 @@ const delete_manager_DELETE  = function(req, res){
             res.status(400).send({ERROR: `There was an problem deleting this id. ${err}`})
         })
 } 
-
-module.exports = {findAll_manager_GET, createNew_manager_POST, findOne_manager_GET, update_manager_PUT, findReports_manager_GET, delete_manager_DELETE };

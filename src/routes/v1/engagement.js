@@ -1,7 +1,7 @@
 import express from 'express';
 export const engagement = express.Router();
-const { numberValidation } = require('../../controlers/helpers');
-const { findAll_engagements_GET, createNew_engagements_POST, findOne_engagement_GET, update_engagement_PUT, delete_engagement_DELETE, findemployees_engagement_GET } = require('../../controlers/engagementOperations');
+import  { numberValidation } from '../../controlers/helpers';
+import { findAll_engagements_GET, createNew_engagements_POST, findOne_engagement_GET, update_engagement_PUT, delete_engagement_DELETE, findemployees_engagement_GET } from '../../controlers/engagementOperations';
 
 /**
  * @openapi

@@ -1,7 +1,7 @@
 import express from 'express';
 export const management = express.Router();
-const { numberValidation } = require('../../controlers/helpers');
-const {findAll_manager_GET, createNew_manager_POST, findOne_manager_GET, update_manager_PUT, delete_manager_DELETE, findReports_manager_GET } = require('../../controlers/managementOperations');
+import  { numberValidation } from '../../controlers/helpers';
+import { findAll_manager_GET, createNew_manager_POST, findOne_manager_GET, update_manager_PUT, delete_manager_DELETE, findReports_manager_GET } from '../../controlers/managementOperations';
 
 
 

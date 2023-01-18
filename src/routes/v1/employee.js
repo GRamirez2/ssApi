@@ -1,7 +1,7 @@
 
 import express from 'express';
 export const employee = express.Router()
-import { findAll_employees_GET, createNew_employee_POST, findOne_employee_GET, update_employee_PUT, delete_employee_DELETE }from '../../controlers/employeeOperations'
+import { findAll_employees_GET, createNew_employee_POST, findOne_employee_GET, update_employee_PUT, delete_employee_DELETE } from '../../controlers/employeeOperations'
 import { numberValidation, primary_techValidation } from '../../controlers/helpers';
  
 

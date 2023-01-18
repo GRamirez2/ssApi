@@ -7,7 +7,7 @@ const { Op } = require("sequelize");
 /**
  * route = 'engagement/'
  * */
-const findAll_engagements_GET = function(req, res){
+export const findAll_engagements_GET = function(req, res){
     EngagementModel.findAll({
         where: {
             end_date:{
@@ -32,7 +32,7 @@ const findAll_engagements_GET = function(req, res){
 
 } 
 
-const createNew_engagements_POST = function(req, res){
+export const createNew_engagements_POST = function(req, res){
    // validate that all fields are passed in or return error !!!
    const newEngagement = {
         client: req.body.client.trim(),
@@ -63,7 +63,7 @@ const createNew_engagements_POST = function(req, res){
 /**
  * route = 'engagement/:id'
  * */
-const findOne_engagement_GET = function(req, res){
+export const findOne_engagement_GET = function(req, res){
     EngagementModel.findOne({
         where:{
             id: req.params.id
@@ -78,7 +78,7 @@ const findOne_engagement_GET = function(req, res){
         })
 } 
 
-const update_engagement_PUT = function(req, res){
+export const update_engagement_PUT = function(req, res){
     // need to add validation, maybe use the Joi library?
     EngagementModel.update(
         {
@@ -105,7 +105,7 @@ const update_engagement_PUT = function(req, res){
     })
 } 
 
-const delete_engagement_DELETE  = function(req, res){
+export const delete_engagement_DELETE  = function(req, res){
     EngagementModel.destroy({
         where:{
             id: req.params.id
@@ -123,7 +123,7 @@ const delete_engagement_DELETE  = function(req, res){
 /**
  * route = 'engagement/:id/employees
  */
-const findemployees_engagement_GET = function(req, res){
+export const findemployees_engagement_GET = function(req, res){
     EmployeeModal.findAll({
         where:{
             engagement_id: req.params.id
@@ -143,5 +143,3 @@ const findemployees_engagement_GET = function(req, res){
             res.send({ERROR: `${err}`})
         })
 }
-
-module.exports = { findAll_engagements_GET, createNew_engagements_POST, findOne_engagement_GET, update_engagement_PUT, delete_engagement_DELETE, findemployees_engagement_GET };

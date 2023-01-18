@@ -1,5 +1,5 @@
 const EmployeeModal = require('../models/Employees');
-const SkillsModel = require('../models/Skills');
+const SkillsModel = require('../models/Skill');
 const ManagementModel = require('../models/Management');
 const EngagementModel = require('../models/Engagement');
 

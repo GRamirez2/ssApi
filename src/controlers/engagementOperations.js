@@ -1,7 +1,7 @@
 const EngagementModel = require('../models/Engagement');
 const ManagementModel = require('../models/Management');
 const EmployeeModal = require('../models/Employees');
-const SkillsModel = require('../models/Skills');
+const SkillsModel = require('../models/Skill');
 const { Op } = require("sequelize");
 
 /**

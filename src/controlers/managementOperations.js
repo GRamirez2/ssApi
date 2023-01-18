@@ -1,6 +1,6 @@
 const ManagementModel = require('../models/Management');
 const EmployeeModal = require('../models/Employees');
-const SkillsModel = require('../models/Skills');
+const SkillsModel = require('../models/Skill');
 
 /**
  * route = 'management/'

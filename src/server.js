@@ -5,7 +5,7 @@ import cors from 'cors';
 import 'dotenv/config';
 
 
-// Database // why doens't from work for this? 
+// Database // why doens't from work for this? ???????
 const db =  require('./utils/dbConnect')
 const v1 = require('./routes/v1/routes')
 

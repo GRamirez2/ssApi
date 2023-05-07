@@ -1,11 +1,11 @@
 const ManagementModel = require('../models/Management');
 const EmployeeModal = require('../models/Employees');
-const SkillsModel = require('../models/Skills');
+const SkillsModel = require('../models/Skill');
 
 /**
  * route = 'skills/'
  * */
-const findAll_skill_GET = function(req, res){
+export const findAll_skill_GET = function(req, res){
     EmployeeModal.findAll({ include:[
             {model:SkillsModel}
             ]
@@ -22,7 +22,7 @@ const findAll_skill_GET = function(req, res){
 /**
  * route = 'skills/employee/:id'
  * */
-const findOne_skill_GET = function(req, res){
+export const findOne_skill_GET = function(req, res){
     EmployeeModal.findOne({
         where:{
             id: req.params.id
@@ -38,7 +38,7 @@ const findOne_skill_GET = function(req, res){
         })
 } 
 
-const update_skill_PUT = function(req, res){
+export const update_skill_PUT = function(req, res){
     // need to add validation, maybe use the Joi library?
     SkillsModel.update(
         {
@@ -60,7 +60,7 @@ const update_skill_PUT = function(req, res){
 /**
  * route = 'skills/primary
  */
-const findAll_primary_skill_GET = function(req, res){
+export const findAll_primary_skill_GET = function(req, res){
     SkillsModel.findAll()
         .then(skills =>{
             let cleanList = skills.map(s => s.primary_tech.toUpperCase())
@@ -75,7 +75,7 @@ const findAll_primary_skill_GET = function(req, res){
 /**
  * route = 'skills/secondary
  */
-const findAll_secondary_skill_GET = function(req, res){
+export const findAll_secondary_skill_GET = function(req, res){
     SkillsModel.findAll()
         .then(skills =>{
             let cleanList = skills.map(s => s.secondary_tech.toUpperCase())
@@ -90,7 +90,7 @@ const findAll_secondary_skill_GET = function(req, res){
 /**
  * route = 'skills/desired
  */
-const findAll_desired_skill_GET = function(req, res){
+export const findAll_desired_skill_GET = function(req, res){
     SkillsModel.findAll()
         .then(skills =>{
             let cleanList = skills.map(s => s.desired_tech.toUpperCase())
@@ -106,7 +106,7 @@ const findAll_desired_skill_GET = function(req, res){
 * route = '/employees/:level/:skill'
 * level options are: primary_tech, secondary_tech, desired_tech
 */
-const findAll_employees_skill_level_GET = function(req, res){
+export const findAll_employees_skill_level_GET = function(req, res){
 
     let key = req.params.level.toLowerCase().trim().toString();
     const skill_ = req.params.skill.toLowerCase().trim().toString();
@@ -126,5 +126,3 @@ const findAll_employees_skill_level_GET = function(req, res){
             res.status(400).send({ERROR: `${err}`})
         })
 }
-
-module.exports = {findAll_skill_GET, findOne_skill_GET, update_skill_PUT, findAll_primary_skill_GET, findAll_secondary_skill_GET, findAll_desired_skill_GET,findAll_employees_skill_level_GET};
